@@ -22,25 +22,25 @@ const fallbackServices = [
   {
     category: "Стрижки та Укладки",
     items: [
-      { name: "Жіноча стрижка", desc: "Миття, стрижка, сушка за формою", price: "від 800 ₴" },
-      { name: "Укладка вечірня", desc: "Створення локонів, текстурні зачіски", price: "від 1200 ₴" },
-      { name: "Стрижка кінчиків", desc: "Рівний зріз машинкою або ножицями", price: "400 ₴" },
+      { name: "Жіноча стрижка", desc: "Миття, стрижка, сушка за формою", price: "від 800 Kč" },
+      { name: "Укладка вечірня", desc: "Створення локонів, текстурні зачіски", price: "від 1200 Kč" },
+      { name: "Стрижка кінчиків", desc: "Рівний зріз машинкою або ножицями", price: "400 Kč" },
     ]
   },
   {
     category: "Фарбування",
     items: [
-      { name: "Фарбування в один тон", desc: "Фарбування коренів або всієї довжини", price: "від 1500 ₴" },
-      { name: "Складне фарбування", desc: "Airtouch, Balayage, Shatush", price: "від 3500 ₴" },
-      { name: "Тонування", desc: "Надання відтінку та блиску волоссю", price: "від 1000 ₴" },
+      { name: "Фарбування в один тон", desc: "Фарбування коренів або всієї довжини", price: "від 1500 Kč" },
+      { name: "Складне фарбування", desc: "Airtouch, Balayage, Shatush", price: "від 3500 Kč" },
+      { name: "Тонування", desc: "Надання відтінку та блиску волоссю", price: "від 1000 Kč" },
     ]
   },
   {
     category: "Догляд",
     items: [
-      { name: "Глибоке відновлення", desc: "Процедура реконструкції пошкодженого волосся", price: "від 1500 ₴" },
-      { name: "Кератинове вирівнювання", desc: "Ідеально рівне та блискуче волосся", price: "від 2500 ₴" },
-      { name: "Спа-догляд для шкіри голови", desc: "Пілінг та зволоження", price: "800 ₴" },
+      { name: "Глибоке відновлення", desc: "Процедура реконструкції пошкодженого волосся", price: "від 1500 Kč" },
+      { name: "Кератинове вирівнювання", desc: "Ідеально рівне та блискуче волосся", price: "від 2500 Kč" },
+      { name: "Спа-догляд для шкіри голови", desc: "Пілінг та зволоження", price: "800 Kč" },
     ]
   }
 ];
@@ -69,7 +69,7 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
           <div className="w-16 h-px bg-gold mx-auto mb-8"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-16">
           {displayGroups && displayGroups.length > 0 ? (
             displayGroups.map((group, groupIdx) => {
               const displayItems = limitItemsPerGroup ? group.items.slice(0, limitItemsPerGroup) : group.items;
@@ -87,14 +87,15 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
                       {group.title?.[locale] || group.title?.[defaultLocale] || group.title?.['en'] || 'Послуги'}
                     </h3>
                   )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-6 md:gap-y-8">
+                  <div className="flex flex-col gap-6">
                     {displayItems.map((item) => (
-                      <div key={item.id} className="group bg-surface p-6 md:p-8 rounded-[2rem] border border-ink/5 shadow-sm hover:shadow-md hover:border-gold/30 transition-all duration-300 flex flex-col h-full">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
+                      <div key={item.id} className="group flex flex-col relative">
+                        <div className="flex justify-between items-baseline gap-4 mb-1">
                           <h4 className="text-lg md:text-xl text-ink font-medium group-hover:text-gold transition-colors">{item.title?.[locale] || item.title?.[defaultLocale] || item.title?.['en'] || 'Послуга'}</h4>
-                          <span className="text-lg md:text-xl text-gold font-serif whitespace-nowrap shrink-0">{item.price ? `${item.price} ₴` : ''}</span>
+                          <div className="flex-grow border-b border-dotted border-ink/20 relative top-[-6px] mx-2"></div>
+                          <span className="text-lg md:text-xl text-gold font-serif whitespace-nowrap shrink-0">{item.price ? `${item.price} Kč` : ''}</span>
                         </div>
-                        <p className="text-sm md:text-base text-ink-light font-light leading-relaxed flex-grow">{item.description?.[locale] || item.description?.[defaultLocale] || item.description?.['en'] || ''}</p>
+                        <p className="text-sm md:text-base text-ink-light font-light leading-relaxed pr-16">{item.description?.[locale] || item.description?.[defaultLocale] || item.description?.['en'] || ''}</p>
                       </div>
                     ))}
                   </div>
@@ -102,7 +103,7 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
               );
             })
           ) : (
-            <div className="grid grid-cols-1 gap-16 w-full">
+            <>
               {fallbackServices.slice(0, limitGroups || fallbackServices.length).map((section, idx) => {
                 const displayItems = limitItemsPerGroup ? section.items.slice(0, limitItemsPerGroup) : section.items;
                 return (
@@ -115,21 +116,22 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
                     className="w-full"
                   >
                     <h3 className="text-2xl md:text-3xl font-serif text-ink mb-8 md:mb-10 border-b border-ink/10 pb-4">{section.category}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-6 md:gap-y-8">
+                    <div className="flex flex-col gap-6">
                       {displayItems.map((item, i) => (
-                        <div key={i} className="group bg-surface p-6 md:p-8 rounded-[2rem] border border-ink/5 shadow-sm hover:shadow-md hover:border-gold/30 transition-all duration-300 flex flex-col h-full">
-                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
+                        <div key={i} className="group flex flex-col relative">
+                          <div className="flex justify-between items-baseline gap-4 mb-1">
                             <h4 className="text-lg md:text-xl text-ink font-medium group-hover:text-gold transition-colors">{item.name}</h4>
+                            <div className="flex-grow border-b border-dotted border-ink/20 relative top-[-6px] mx-2"></div>
                             <span className="text-lg md:text-xl text-gold font-serif whitespace-nowrap shrink-0">{item.price}</span>
                           </div>
-                          <p className="text-sm md:text-base text-ink-light font-light leading-relaxed flex-grow">{item.desc}</p>
+                          <p className="text-sm md:text-base text-ink-light font-light leading-relaxed pr-16">{item.desc}</p>
                         </div>
                       ))}
                     </div>
                   </motion.div>
                 );
               })}
-            </div>
+            </>
           )}
         </div>
 
@@ -140,7 +142,7 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
             viewport={{ once: true }}
             className="mt-16 md:mt-20 text-center"
           >
-            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-bg transition-colors duration-300">
+            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-white transition-colors duration-300">
               {t.showAll}
             </Link>
           </motion.div>

@@ -78,7 +78,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
               onClick={() => setSelectedService(null)}
               className={`px-6 py-2.5 rounded-full text-xs md:text-sm tracking-wide transition-all ${
                 selectedService === null 
-                  ? 'bg-ink text-bg shadow-md' 
+                  ? 'bg-ink text-white shadow-md' 
                   : 'bg-surface text-ink-light border border-ink/10 hover:border-ink/30 hover:text-ink'
               }`}
             >
@@ -90,7 +90,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
                 onClick={() => setSelectedService(service)}
                 className={`px-6 py-2.5 rounded-full text-xs md:text-sm tracking-wide transition-all ${
                   selectedService === service 
-                    ? 'bg-ink text-bg shadow-md' 
+                    ? 'bg-ink text-white shadow-md' 
                     : 'bg-surface text-ink-light border border-ink/10 hover:border-ink/30 hover:text-ink'
                 }`}
               >
@@ -123,7 +123,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
                   />
                 )}
                 <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500 flex items-center justify-center">
-                  <span className="text-bg opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-serif text-xl border border-bg/50 px-8 py-3 rounded-full bg-ink/20 backdrop-blur-md">
+                  <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-serif text-xl border border-white/50 px-8 py-3 rounded-full bg-ink/20 backdrop-blur-md">
                     {t.view}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
             viewport={{ once: true }}
             className="mt-16 md:mt-20 text-center"
           >
-            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-bg transition-colors duration-300">
+            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-white transition-colors duration-300">
               {t.showAll}
             </Link>
           </motion.div>

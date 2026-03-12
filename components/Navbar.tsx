@@ -64,9 +64,9 @@ export default function Navbar({ locale, settings }: { locale: string, settings:
           )}
         </div>
 
-        <button className="hidden md:block border border-ink text-ink px-8 py-2.5 rounded-full text-sm uppercase tracking-widest hover:bg-ink hover:text-bg transition-colors duration-300">
+        <Link href="#contact" className="hidden md:block border border-ink text-ink px-8 py-2.5 rounded-full text-sm uppercase tracking-widest hover:bg-ink hover:text-white transition-colors duration-300">
           {t.book}
-        </button>
+        </Link>
 
         <button className="md:hidden text-ink" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X /> : <Menu />}
@@ -96,9 +96,9 @@ export default function Navbar({ locale, settings }: { locale: string, settings:
               ))}
             </div>
           )}
-          <button className="border border-ink text-ink px-6 py-3 rounded-full text-sm uppercase tracking-widest mt-4 w-full hover:bg-ink hover:text-bg transition-colors duration-300">
+          <Link href="#contact" onClick={() => setIsOpen(false)} className="block text-center border border-ink text-ink px-6 py-3 rounded-full text-sm uppercase tracking-widest mt-4 w-full hover:bg-ink hover:text-white transition-colors duration-300">
             {t.book}
-          </button>
+          </Link>
         </motion.div>
       )}
     </motion.nav>

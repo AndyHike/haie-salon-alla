@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'motion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { StoreSettings } from '@/lib/api';
 
@@ -16,14 +17,14 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-bg">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1920&auto=format&fit=crop"
-          alt="Aura Salon"
+          src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1920&auto=format&fit=crop"
+          alt="Aura Salon Interior"
           fill
-          className="object-cover opacity-40"
+          className="object-cover opacity-70"
           referrerPolicy="no-referrer"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/30 via-bg/60 to-bg"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/20 via-bg/40 to-bg"></div>
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
@@ -48,9 +49,9 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <button className="bg-gold text-bg px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-gold border border-transparent hover:border-gold transition-all duration-300 shadow-xl shadow-gold/10">
+          <Link href="#contact" className="inline-block bg-ink text-white px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-gold hover:text-white border border-transparent transition-all duration-300 shadow-xl shadow-ink/10">
             {t.btn}
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
