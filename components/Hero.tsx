@@ -17,7 +17,7 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-bg">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1920&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?q=80&w=2072&auto=format&fit=crop"
           alt="Aura Salon Interior"
           fill
           className="object-cover opacity-70"
