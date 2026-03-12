@@ -2,15 +2,17 @@
 
 @theme {
   --color-gold: #D4AF37;
-  --color-ink: #050505;
-  --color-ink-light: #111111;
+  --color-bg: #0A0908;
+  --color-surface: #141211;
+  --color-ink: #F5F2ED;
+  --color-ink-light: #9E9993;
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 body {
-  background-color: var(--color-ink);
-  color: #FAFAFA;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
 }
 
 html {

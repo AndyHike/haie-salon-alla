@@ -52,17 +52,17 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
   }
 
   return (
-    <section id="gallery" className="py-24 bg-ink-light">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="gallery" className="py-20 md:py-32 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl md:text-5xl font-serif text-gold mb-4">{t.title}</h2>
-          <div className="w-24 h-1 bg-gold mx-auto opacity-50 rounded-full"></div>
-          <p className="mt-6 text-white/70 max-w-2xl mx-auto font-light">
+          <h2 className="text-4xl md:text-6xl font-serif text-ink mb-6">{t.title}</h2>
+          <div className="w-16 h-px bg-gold mx-auto mb-8"></div>
+          <p className="mt-6 text-ink-light max-w-2xl mx-auto font-light text-base md:text-lg">
             {t.desc}
           </p>
         </motion.div>
@@ -76,10 +76,10 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
           >
             <button
               onClick={() => setSelectedService(null)}
-              className={`px-6 py-2 rounded-full text-sm transition-colors border ${
+              className={`px-6 py-2.5 rounded-full text-xs md:text-sm tracking-wide transition-all ${
                 selectedService === null 
-                  ? 'bg-gold text-ink border-gold' 
-                  : 'bg-transparent text-white/70 border-white/20 hover:border-gold/50 hover:text-white'
+                  ? 'bg-ink text-bg shadow-md' 
+                  : 'bg-surface text-ink-light border border-ink/10 hover:border-ink/30 hover:text-ink'
               }`}
             >
               {t.all}
@@ -88,10 +88,10 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
               <button
                 key={service}
                 onClick={() => setSelectedService(service)}
-                className={`px-6 py-2 rounded-full text-sm transition-colors border ${
+                className={`px-6 py-2.5 rounded-full text-xs md:text-sm tracking-wide transition-all ${
                   selectedService === service 
-                    ? 'bg-gold text-ink border-gold' 
-                    : 'bg-transparent text-white/70 border-white/20 hover:border-gold/50 hover:text-white'
+                    ? 'bg-ink text-bg shadow-md' 
+                    : 'bg-surface text-ink-light border border-ink/10 hover:border-ink/30 hover:text-ink'
                 }`}
               >
                 {service}
@@ -100,7 +100,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
           </motion.div>
         )}
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="columns-2 lg:columns-3 gap-4 md:gap-6 space-y-4 md:space-y-6">
           <AnimatePresence mode="popLayout">
             {displayImages.map((img, idx) => (
               <motion.div
@@ -110,7 +110,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
-                className="break-inside-avoid relative group overflow-hidden rounded-3xl shadow-lg shadow-black/20"
+                className="break-inside-avoid relative group overflow-hidden rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow duration-500"
               >
               <div className={`relative w-full ${img.aspect}`}>
                 {img.src && (
@@ -122,8 +122,8 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
                     referrerPolicy="no-referrer"
                   />
                 )}
-                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/40 transition-colors duration-500 flex items-center justify-center">
-                  <span className="text-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-serif text-xl border border-gold px-8 py-3 rounded-full bg-ink/30 backdrop-blur-sm">
+                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors duration-500 flex items-center justify-center">
+                  <span className="text-bg opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-serif text-xl border border-bg/50 px-8 py-3 rounded-full bg-ink/20 backdrop-blur-md">
                     {t.view}
                   </span>
                 </div>
@@ -138,9 +138,9 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-16 text-center"
+            className="mt-16 md:mt-20 text-center"
           >
-            <Link href={showAllLink} className="inline-block border border-gold text-gold px-10 py-3.5 rounded-full text-sm uppercase tracking-widest hover:bg-gold hover:text-ink transition-colors">
+            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-bg transition-colors duration-300">
               {t.showAll}
             </Link>
           </motion.div>

@@ -62,7 +62,7 @@ export default function Footer({ locale, settings }: { locale: string, settings:
   const t = dict[locale as keyof typeof dict] || dict.uk;
 
   return (
-    <footer id="contact" className="bg-ink pt-24 pb-12 border-t border-white/5">
+    <footer id="contact" className="bg-bg pt-24 pb-12 border-t border-ink/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           <motion.div
@@ -71,17 +71,17 @@ export default function Footer({ locale, settings }: { locale: string, settings:
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-serif text-gold mb-6 tracking-widest">{settings?.companyName || 'AURA'}</h3>
-            <p className="text-white/60 font-light leading-relaxed mb-6">
+            <p className="text-ink/60 font-light leading-relaxed mb-6">
               {t.desc}
             </p>
             <div className="flex gap-4">
               {settings?.instagramActive && settings.instagramUrl && (
-                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all">
+                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-ink/10 bg-ink/5 flex items-center justify-center text-ink/60 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all">
                   <Instagram size={20} />
                 </a>
               )}
               {settings?.facebookActive && settings.facebookUrl && (
-                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all">
+                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-ink/10 bg-ink/5 flex items-center justify-center text-ink/60 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all">
                   <Facebook size={20} />
                 </a>
               )}
@@ -94,10 +94,10 @@ export default function Footer({ locale, settings }: { locale: string, settings:
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="text-lg font-serif text-white mb-6 uppercase tracking-wider">{t.contact}</h4>
-            <ul className="space-y-4 text-white/60 font-light">
+            <h4 className="text-lg font-serif text-ink mb-6 uppercase tracking-wider">{t.contact}</h4>
+            <ul className="space-y-4 text-ink/60 font-light">
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
                   <MapPin className="text-gold" size={18} />
                 </div>
                 <span className="mt-2">
@@ -111,7 +111,7 @@ export default function Footer({ locale, settings }: { locale: string, settings:
                 </span>
               </li>
               <li className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
                   <Phone className="text-gold" size={18} />
                 </div>
                 <span>
@@ -129,10 +129,10 @@ export default function Footer({ locale, settings }: { locale: string, settings:
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <h4 className="text-lg font-serif text-white mb-6 uppercase tracking-wider">{t.schedule}</h4>
-            <ul className="space-y-4 text-white/60 font-light">
+            <h4 className="text-lg font-serif text-ink mb-6 uppercase tracking-wider">{t.schedule}</h4>
+            <ul className="space-y-4 text-ink/60 font-light">
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
                   <Clock className="text-gold" size={18} />
                 </div>
                 <div className="mt-2 w-full pr-4">
@@ -143,7 +143,7 @@ export default function Footer({ locale, settings }: { locale: string, settings:
           </motion.div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40 font-light">
+        <div className="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-ink/40 font-light">
           <p>&copy; {new Date().getFullYear()} {settings?.companyName || 'Aura Salon'}. {t.rights}</p>
           <p>{t.dev}</p>
         </div>

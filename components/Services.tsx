@@ -57,16 +57,16 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
   const displayGroups = limitGroups ? groups?.slice(0, limitGroups) : groups;
 
   return (
-    <section id="services" className="py-24 bg-ink relative">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="services" className="py-20 md:py-32 bg-bg relative">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl md:text-5xl font-serif text-gold mb-4">{t.title}</h2>
-          <div className="w-24 h-1 bg-gold mx-auto opacity-50 rounded-full"></div>
+          <h2 className="text-4xl md:text-6xl font-serif text-ink mb-6">{t.title}</h2>
+          <div className="w-16 h-px bg-gold mx-auto mb-8"></div>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-16">
@@ -83,19 +83,18 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
                   className="w-full"
                 >
                   {displayGroups.length > 1 && (
-                    <h3 className="text-2xl font-serif text-white mb-8 uppercase tracking-wider border-b border-white/10 pb-4">
+                    <h3 className="text-2xl md:text-3xl font-serif text-ink mb-8 md:mb-10 border-b border-ink/10 pb-4">
                       {group.title?.[locale] || group.title?.[defaultLocale] || group.title?.['en'] || 'Послуги'}
                     </h3>
                   )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-6 md:gap-y-8">
                     {displayItems.map((item) => (
-                      <div key={item.id} className="group bg-white/5 p-6 rounded-3xl border border-white/5 hover:border-gold/30 transition-colors">
-                        <div className="flex justify-between items-baseline mb-2">
-                          <h4 className="text-lg text-gold font-medium pr-4">{item.title?.[locale] || item.title?.[defaultLocale] || item.title?.['en'] || 'Послуга'}</h4>
-                          <div className="flex-grow border-b border-dotted border-white/20 relative top-[-6px] group-hover:border-gold/50 transition-colors hidden sm:block"></div>
-                          <span className="text-lg text-white whitespace-nowrap pl-4">{item.price ? `${item.price} ₴` : ''}</span>
+                      <div key={item.id} className="group bg-surface p-6 md:p-8 rounded-[2rem] border border-ink/5 shadow-sm hover:shadow-md hover:border-gold/30 transition-all duration-300 flex flex-col h-full">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
+                          <h4 className="text-lg md:text-xl text-ink font-medium group-hover:text-gold transition-colors">{item.title?.[locale] || item.title?.[defaultLocale] || item.title?.['en'] || 'Послуга'}</h4>
+                          <span className="text-lg md:text-xl text-gold font-serif whitespace-nowrap shrink-0">{item.price ? `${item.price} ₴` : ''}</span>
                         </div>
-                        <p className="text-sm text-white/60 font-light">{item.description?.[locale] || item.description?.[defaultLocale] || item.description?.['en'] || ''}</p>
+                        <p className="text-sm md:text-base text-ink-light font-light leading-relaxed flex-grow">{item.description?.[locale] || item.description?.[defaultLocale] || item.description?.['en'] || ''}</p>
                       </div>
                     ))}
                   </div>
@@ -115,16 +114,15 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
                     transition={{ delay: idx * 0.2 }}
                     className="w-full"
                   >
-                    <h3 className="text-2xl font-serif text-white mb-8 uppercase tracking-wider border-b border-white/10 pb-4">{section.category}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-8">
+                    <h3 className="text-2xl md:text-3xl font-serif text-ink mb-8 md:mb-10 border-b border-ink/10 pb-4">{section.category}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-6 md:gap-y-8">
                       {displayItems.map((item, i) => (
-                        <div key={i} className="group bg-white/5 p-6 rounded-3xl border border-white/5 hover:border-gold/30 transition-colors">
-                          <div className="flex justify-between items-baseline mb-2">
-                            <h4 className="text-lg text-gold font-medium pr-4">{item.name}</h4>
-                            <div className="flex-grow border-b border-dotted border-white/20 relative top-[-6px] group-hover:border-gold/50 transition-colors hidden sm:block"></div>
-                            <span className="text-lg text-white whitespace-nowrap pl-4">{item.price}</span>
+                        <div key={i} className="group bg-surface p-6 md:p-8 rounded-[2rem] border border-ink/5 shadow-sm hover:shadow-md hover:border-gold/30 transition-all duration-300 flex flex-col h-full">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2 sm:gap-4">
+                            <h4 className="text-lg md:text-xl text-ink font-medium group-hover:text-gold transition-colors">{item.name}</h4>
+                            <span className="text-lg md:text-xl text-gold font-serif whitespace-nowrap shrink-0">{item.price}</span>
                           </div>
-                          <p className="text-sm text-white/60 font-light">{item.desc}</p>
+                          <p className="text-sm md:text-base text-ink-light font-light leading-relaxed flex-grow">{item.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -140,9 +138,9 @@ export default function Services({ groups, locale, settings, limitGroups, limitI
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-16 text-center"
+            className="mt-16 md:mt-20 text-center"
           >
-            <Link href={showAllLink} className="inline-block border border-gold text-gold px-10 py-3.5 rounded-full text-sm uppercase tracking-widest hover:bg-gold hover:text-ink transition-colors">
+            <Link href={showAllLink} className="inline-block border border-ink text-ink px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-bg transition-colors duration-300">
               {t.showAll}
             </Link>
           </motion.div>

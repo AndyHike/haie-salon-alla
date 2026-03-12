@@ -55,7 +55,7 @@ export default async function RootLayout({
   const { locale } = await params;
   return (
     <html lang={locale} className={`${playfair.variable} ${montserrat.variable}`}>
-      <body className="font-sans antialiased bg-ink text-white selection:bg-gold selection:text-ink" suppressHydrationWarning>
+      <body className="font-sans antialiased bg-bg text-ink selection:bg-gold selection:text-white" suppressHydrationWarning>
         {children}
       </body>
     </html>

@@ -36,17 +36,17 @@ export default function ContactForm({ locale }: { locale: string }) {
   };
 
   return (
-    <section id="contact" className="py-24 bg-ink relative">
-      <div className="max-w-3xl mx-auto px-6">
+    <section id="contact" className="py-20 md:py-32 bg-bg relative">
+      <div className="max-w-3xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl md:text-5xl font-serif text-gold mb-4">{t.title}</h2>
-          <div className="w-24 h-1 bg-gold mx-auto opacity-50 rounded-full"></div>
-          <p className="mt-6 text-white/70 font-light">{t.desc}</p>
+          <h2 className="text-4xl md:text-6xl font-serif text-ink mb-6">{t.title}</h2>
+          <div className="w-16 h-px bg-gold mx-auto mb-8"></div>
+          <p className="mt-6 text-ink-light font-light text-base md:text-lg">{t.desc}</p>
         </motion.div>
 
         <motion.form
@@ -55,54 +55,57 @@ export default function ContactForm({ locale }: { locale: string }) {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
           onSubmit={handleSubmit}
-          className="space-y-6 bg-white/5 p-8 md:p-10 rounded-3xl border border-white/10 shadow-xl"
+          className="space-y-6 md:space-y-8 bg-surface p-8 md:p-12 rounded-[2rem] border border-ink/5 shadow-xl shadow-ink/5"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">{t.name} *</label>
+              <label className="block text-xs md:text-sm font-medium text-ink-light mb-2 uppercase tracking-wider">{t.name} *</label>
               <input 
                 required 
                 type="text" 
+                autoComplete="name"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full bg-ink-light border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                className="w-full bg-bg border border-ink/10 rounded-2xl px-5 py-4 text-ink focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">{t.email} *</label>
+              <label className="block text-xs md:text-sm font-medium text-ink-light mb-2 uppercase tracking-wider">{t.email} *</label>
               <input 
                 required 
                 type="email" 
+                autoComplete="email"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full bg-ink-light border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+                className="w-full bg-bg border border-ink/10 rounded-2xl px-5 py-4 text-ink focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/70 mb-2">{t.phone}</label>
+            <label className="block text-xs md:text-sm font-medium text-ink-light mb-2 uppercase tracking-wider">{t.phone}</label>
             <input 
               type="tel" 
+              autoComplete="tel"
               value={formData.phone}
               onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              className="w-full bg-ink-light border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors"
+              className="w-full bg-bg border border-ink/10 rounded-2xl px-5 py-4 text-ink focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/70 mb-2">{t.message} *</label>
+            <label className="block text-xs md:text-sm font-medium text-ink-light mb-2 uppercase tracking-wider">{t.message} *</label>
             <textarea 
               required 
               rows={4}
               value={formData.message}
               onChange={(e) => setFormData({...formData, message: e.target.value})}
-              className="w-full bg-ink-light border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors resize-none"
+              className="w-full bg-bg border border-ink/10 rounded-2xl px-5 py-4 text-ink focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all resize-none"
             ></textarea>
           </div>
           
           <button 
             disabled={status === 'loading'}
             type="submit" 
-            className="w-full bg-gold text-ink font-semibold py-4 rounded-full uppercase tracking-widest hover:bg-white hover:text-ink transition-colors duration-300 disabled:opacity-70"
+            className="w-full bg-ink text-bg font-medium py-4 md:py-5 rounded-full text-sm md:text-base uppercase tracking-widest hover:bg-gold transition-colors duration-300 disabled:opacity-70 mt-4"
           >
             {status === 'loading' ? '...' : t.send}
           </button>

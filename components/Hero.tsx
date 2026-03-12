@@ -13,33 +13,33 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
   const t = dict[locale as keyof typeof dict] || dict.uk;
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-bg">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1920&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1920&auto=format&fit=crop"
           alt="Aura Salon"
           fill
           className="object-cover opacity-40"
           referrerPolicy="no-referrer"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/60 to-ink"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/30 via-bg/60 to-bg"></div>
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-20">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-serif text-gold mb-6 leading-tight"
+          className="text-5xl md:text-7xl lg:text-[6.5rem] font-serif text-ink mb-6 leading-[1.1] tracking-tight"
         >
-          {t.title} <br className="md:hidden" /> {t.title2}
+          {t.title} <br className="hidden md:block" /> <span className="text-gold italic font-light">{t.title2}</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto font-light"
+          className="text-lg md:text-xl text-ink-light mb-10 max-w-2xl mx-auto font-light leading-relaxed"
         >
           {t.desc}
         </motion.p>
@@ -48,7 +48,7 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <button className="bg-gold text-ink px-10 py-4 rounded-full text-sm md:text-base uppercase tracking-widest font-semibold hover:bg-white hover:text-ink transition-colors duration-300 shadow-lg shadow-gold/20">
+          <button className="bg-gold text-bg px-10 py-4 rounded-full text-sm uppercase tracking-widest font-medium hover:bg-ink hover:text-gold border border-transparent hover:border-gold transition-all duration-300 shadow-xl shadow-gold/10">
             {t.btn}
           </button>
         </motion.div>
