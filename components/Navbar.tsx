@@ -36,7 +36,7 @@ export default function Navbar({ locale, settings }: { locale: string, settings:
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled || isOpen ? 'bg-bg/90 backdrop-blur-lg py-4 shadow-sm border-b border-ink/5' : 'bg-transparent py-6'}`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled || isOpen ? 'bg-bg/90 backdrop-blur-lg py-4 shadow-sm border-b border-ink/5' : 'bg-gradient-to-b from-bg/90 via-bg/40 to-transparent py-6'}`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Link href={`/${locale}`} className="text-2xl font-serif tracking-widest text-ink">
@@ -68,7 +68,7 @@ export default function Navbar({ locale, settings }: { locale: string, settings:
           {t.book}
         </Link>
 
-        <button className="md:hidden text-ink" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden text-ink p-2 -mr-2 rounded-full bg-bg/80 backdrop-blur-md border border-ink/10 shadow-sm" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
