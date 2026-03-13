@@ -20,11 +20,16 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?q=80&w=2072&auto=format&fit=crop"
           alt="Aura Salon Interior"
           fill
-          className="object-cover opacity-70"
+          className="object-cover opacity-100"
           referrerPolicy="no-referrer"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/20 via-bg/40 to-bg"></div>
+        {/* Subtle overall lightening to keep the photo bright but readable */}
+        <div className="absolute inset-0 bg-surface/20"></div>
+        {/* Radial glow behind the text for perfect contrast */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,251,247,0.9)_0%,rgba(253,251,247,0.5)_30%,rgba(253,251,247,0)_70%)]"></div>
+        {/* Bottom fade to blend with the next section */}
+        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent"></div>
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
@@ -32,7 +37,7 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-[6.5rem] font-serif text-ink mb-6 leading-[1.1] tracking-tight"
+          className="text-5xl md:text-7xl lg:text-[6.5rem] font-serif text-ink mb-6 leading-[1.1] tracking-tight drop-shadow-sm"
         >
           {t.title} <br className="hidden md:block" /> <span className="text-gold italic font-light">{t.title2}</span>
         </motion.h1>
@@ -40,7 +45,7 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-ink-light mb-10 max-w-2xl mx-auto font-light leading-relaxed"
+          className="text-lg md:text-xl text-ink-light mb-10 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-sm"
         >
           {t.desc}
         </motion.p>
