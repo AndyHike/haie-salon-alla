@@ -8,9 +8,9 @@ export default function ContactForm({ locale }: { locale: string }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
 
   const dict = {
-    uk: { title: 'Зв\'язатися з нами', desc: 'Залиште свої контакти і ми передзвонимо вам найближчим часом.', name: 'Ваше ім\'я', email: 'Email', phone: 'Телефон', message: 'Повідомлення', send: 'Відправити', success: 'Повідомлення успішно відправлено!', error: 'Помилка відправки. Спробуйте ще раз.' },
-    cs: { title: 'Kontaktujte nás', desc: 'Zanechte nám své kontakty a my se vám brzy ozveme.', name: 'Vaše jméno', email: 'Email', phone: 'Telefon', message: 'Zpráva', send: 'Odeslat', success: 'Zpráva byla úspěšně odeslána!', error: 'Chyba při odesílání. Zkuste to prosím znovu.' },
-    en: { title: 'Contact Us', desc: 'Leave your contacts and we will call you back shortly.', name: 'Your Name', email: 'Email', phone: 'Phone', message: 'Message', send: 'Send', success: 'Message sent successfully!', error: 'Error sending message. Please try again.' }
+    uk: { title: 'Зв\'язатися з нами', desc: 'Залиште свої контакти і ми передзвонимо вам найближчим часом.', name: 'Ваше ім\'я', email: 'Email', phone: 'Телефон', message: 'Повідомлення', send: 'Відправити', success: 'Повідомлення успішно відправлено!', successDesc: 'Ми зв\'яжемося з вами найближчим часом.', error: 'Помилка відправки. Спробуйте ще раз.' },
+    cs: { title: 'Kontaktujte nás', desc: 'Zanechte nám své kontakty a my se vám brzy ozveme.', name: 'Vaše jméno', email: 'Email', phone: 'Telefon', message: 'Zpráva', send: 'Odeslat', success: 'Zpráva byla úspěšně odeslána!', successDesc: 'Brzy se s vámi spojíme.', error: 'Chyba při odesílání. Zkuste to prosím znovu.' },
+    en: { title: 'Contact Us', desc: 'Leave your contacts and we will call you back shortly.', name: 'Your Name', email: 'Email', phone: 'Phone', message: 'Message', send: 'Send', success: 'Message sent successfully!', successDesc: 'We will contact you shortly.', error: 'Error sending message. Please try again.' }
   };
   const t = dict[locale as keyof typeof dict] || dict.uk;
 
@@ -61,7 +61,7 @@ export default function ContactForm({ locale }: { locale: string }) {
               </svg>
             </div>
             <h3 className="text-3xl md:text-4xl font-serif text-ink mb-4">{t.success}</h3>
-            <p className="text-ink-light text-lg font-light">Ми зв'яжемося з вами найближчим часом.</p>
+            <p className="text-ink-light text-lg font-light">{t.successDesc}</p>
           </motion.div>
         ) : (
           <motion.form

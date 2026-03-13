@@ -37,7 +37,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const serviceGroups = await getServiceGroups(locale, defaultLocale);
 
   return (
-    <main className="min-h-screen bg-ink pt-24">
+    <main className="min-h-screen bg-bg pt-20 md:pt-24">
       <Navbar locale={locale} settings={settings} />
       <Services groups={serviceGroups} locale={locale} settings={settings} />
       <Footer locale={locale} settings={settings} />

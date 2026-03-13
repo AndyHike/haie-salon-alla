@@ -25,9 +25,9 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
           priority
         />
         {/* Subtle overall lightening to keep the photo bright but readable */}
-        <div className="absolute inset-0 bg-surface/20"></div>
+        <div className="absolute inset-0 bg-surface/5"></div>
         {/* Radial glow behind the text for perfect contrast */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,251,247,0.9)_0%,rgba(253,251,247,0.5)_30%,rgba(253,251,247,0)_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,251,247,0.6)_0%,rgba(253,251,247,0.2)_40%,rgba(253,251,247,0)_70%)]"></div>
         {/* Bottom fade to blend with the next section */}
         <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent"></div>
       </div>

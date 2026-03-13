@@ -36,7 +36,7 @@ export default async function GalleryPage({ params }: { params: Promise<{ locale
   const galleryImages = await getGalleryImages(locale, defaultLocale);
 
   return (
-    <main className="min-h-screen bg-ink pt-24">
+    <main className="min-h-screen bg-bg pt-20 md:pt-24">
       <Navbar locale={locale} settings={settings} />
       <Gallery images={galleryImages} locale={locale} settings={settings} />
       <Footer locale={locale} settings={settings} />
