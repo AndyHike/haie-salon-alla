@@ -2,7 +2,6 @@
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import mainPhoto from '@/public/main-photo.avif';
 
 import { StoreSettings } from '@/lib/api';
 
@@ -18,12 +17,13 @@ export default function Hero({ locale, settings }: { locale: string, settings: S
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-bg">
       <div className="absolute inset-0 z-0">
         <Image
-          src={mainPhoto}
+          src="/main-photo.avif"
           alt={settings?.companyName ? `${settings.companyName} Interior` : "Salon Interior"}
           fill
           className="object-cover opacity-100"
           referrerPolicy="no-referrer"
           priority
+          unoptimized
         />
         {/* Subtle overall lightening to keep the photo bright but readable */}
         <div className="absolute inset-0 bg-surface/5"></div>
