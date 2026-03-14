@@ -6,11 +6,23 @@ import { StoreSettings, WorkingHours } from '@/lib/api';
 
 type DaySchedule = { day: string; open: string; close: string; isClosed: boolean };
 
-function formatWorkingHours(hours: WorkingHours | undefined | null, locale: string, defaultFallback: string) {
-  if (!hours) return <p>{defaultFallback}</p>;
+function formatWorkingHours(rawHours: any, locale: string, defaultFallback: string) {
+  if (!rawHours) return <p>{defaultFallback}</p>;
   
+  let hours: WorkingHours;
+  if (typeof rawHours === 'string') {
+    try {
+      hours = JSON.parse(rawHours);
+    } catch (e) {
+      console.error("Failed to parse working hours string", e);
+      return <p>{defaultFallback}</p>;
+    }
+  } else {
+    hours = rawHours;
+  }
+
   const daysMap: Record<string, Record<string, string>> = {
-    uk: { monday: 'Пн', tuesday: 'Вв', wednesday: 'Ср', thursday: 'Чт', friday: 'Пт', saturday: 'Сб', sunday: 'Нд', closed: 'Вихідний', byAppointment: 'За попереднім записом' },
+    uk: { monday: 'Пн', tuesday: 'Вт', wednesday: 'Ср', thursday: 'Чт', friday: 'Пт', saturday: 'Сб', sunday: 'Нд', closed: 'Вихідний', byAppointment: 'За попереднім записом' },
     cs: { monday: 'Po', tuesday: 'Út', wednesday: 'St', thursday: 'Čt', friday: 'Pá', saturday: 'So', sunday: 'Ne', closed: 'Zavřeno', byAppointment: 'Dle předchozí domluvy' },
     en: { monday: 'Mon', tuesday: 'Tue', wednesday: 'Wed', thursday: 'Thu', friday: 'Fri', saturday: 'Sat', sunday: 'Sun', closed: 'Closed', byAppointment: 'By appointment only' }
   };
@@ -25,15 +37,20 @@ function formatWorkingHours(hours: WorkingHours | undefined | null, locale: stri
     if (!Array.isArray(days) || days.length === 0) return <p>{defaultFallback}</p>;
 
     const groups: { start: string, end: string, open: string, close: string, isClosed: boolean }[] = [];
-    let currentGroup = { start: days[0].day, end: days[0].day, open: days[0].open, close: days[0].close, isClosed: days[0].isClosed };
+    let currentGroup = { start: days[0].day.toLowerCase(), end: days[0].day.toLowerCase(), open: days[0].open, close: days[0].close, isClosed: days[0].isClosed };
 
     for (let i = 1; i < days.length; i++) {
       const day = days[i];
-      if (day.open === currentGroup.open && day.close === currentGroup.close && day.isClosed === currentGroup.isClosed) {
-        currentGroup.end = day.day;
+      const dayName = day.day.toLowerCase();
+      
+      const isSameSchedule = (day.isClosed && currentGroup.isClosed) || 
+                             (!day.isClosed && !currentGroup.isClosed && day.open === currentGroup.open && day.close === currentGroup.close);
+
+      if (isSameSchedule) {
+        currentGroup.end = dayName;
       } else {
         groups.push({ ...currentGroup });
-        currentGroup = { start: day.day, end: day.day, open: day.open, close: day.close, isClosed: day.isClosed };
+        currentGroup = { start: dayName, end: dayName, open: day.open, close: day.close, isClosed: day.isClosed };
       }
     }
     groups.push(currentGroup);
@@ -41,7 +58,9 @@ function formatWorkingHours(hours: WorkingHours | undefined | null, locale: stri
     return (
       <div className="space-y-1 w-full">
         {groups.map((g, idx) => {
-          const dayStr = g.start === g.end ? tDays[g.start] : `${tDays[g.start]} - ${tDays[g.end]}`;
+          const startName = tDays[g.start] || g.start;
+          const endName = tDays[g.end] || g.end;
+          const dayStr = g.start === g.end ? startName : `${startName} - ${endName}`;
           const timeStr = g.isClosed ? tDays.closed : `${g.open} - ${g.close}`;
           return (
             <div key={idx} className="flex justify-between gap-4">
