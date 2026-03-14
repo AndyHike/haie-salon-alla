@@ -13,9 +13,8 @@ export async function middleware(request: NextRequest) {
     const API_KEY = process.env.NEXT_PUBLIC_STORE_API_KEY;
     
     if (API_URL && API_KEY) {
-      const res = await fetch(`${API_URL}/api/public/settings`, {
+      const res = await fetch(`${API_URL}/api/public/v1/settings`, {
         headers: {
-          'x-api-key': API_KEY,
           'x-public-api-key': API_KEY,
         },
         next: { revalidate: 60 }

@@ -95,7 +95,6 @@ async function fetchApi<T>(endpoint: string, locale?: string): Promise<T | null>
 
     const res = await fetch(url.toString(), {
       headers: {
-        'x-api-key': API_KEY,
         'x-public-api-key': API_KEY,
       },
       next: { revalidate: 60 },
@@ -118,15 +117,15 @@ async function fetchApi<T>(endpoint: string, locale?: string): Promise<T | null>
 }
 
 export async function getCategories(locale: string = 'uk') {
-  return fetchApi<Category[]>('/api/public/categories', locale);
+  return fetchApi<Category[]>('/api/public/v1/categories', locale);
 }
 
 export async function getItems(categorySlug: string, locale: string = 'uk', page = 1, limit = 20) {
-  return fetchApi<Item[]>(`/api/public/items?page=${page}&limit=${limit}&categorySlug=${categorySlug}`, locale);
+  return fetchApi<Item[]>(`/api/public/v1/items?page=${page}&limit=${limit}&categorySlug=${categorySlug}`, locale);
 }
 
 export async function getSettings() {
-  return fetchApi<StoreSettings>('/api/public/settings');
+  return fetchApi<StoreSettings>('/api/public/v1/settings');
 }
 
 export interface ServiceGroup {
@@ -248,11 +247,10 @@ export async function sendMessage(data: { name: string; email: string; phone?: s
   if (!API_URL || !API_KEY) return { success: false, error: 'Missing API credentials' };
   
   try {
-    const res = await fetch(`${API_URL}/api/public/messages`, {
+    const res = await fetch(`${API_URL}/api/public/v1/messages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
         'x-public-api-key': API_KEY,
       },
       body: JSON.stringify(data),
