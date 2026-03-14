@@ -79,11 +79,21 @@ export interface ApiResponse<T> {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_SAAS_API_URL;
-const API_KEY = process.env.NEXT_PUBLIC_STORE_API_KEY;
+const PUBLIC_API_KEY = process.env.NEXT_PUBLIC_STORE_API_KEY;
+const SECRET_API_KEY = process.env.STORE_SECRET_KEY;
+
+function getApiKey() {
+  if (typeof window === 'undefined') {
+    return SECRET_API_KEY || PUBLIC_API_KEY;
+  }
+  return PUBLIC_API_KEY;
+}
 
 async function fetchApi<T>(endpoint: string, locale?: string): Promise<T | null> {
-  if (!API_URL || !API_KEY) {
-    console.warn('API credentials missing. Please set NEXT_PUBLIC_SAAS_API_URL and NEXT_PUBLIC_STORE_API_KEY.');
+  const apiKey = getApiKey();
+  
+  if (!API_URL || !apiKey) {
+    console.warn('API credentials missing. Please set NEXT_PUBLIC_SAAS_API_URL and STORE_SECRET_KEY/NEXT_PUBLIC_STORE_API_KEY.');
     return null;
   }
 
@@ -95,7 +105,7 @@ async function fetchApi<T>(endpoint: string, locale?: string): Promise<T | null>
 
     const res = await fetch(url.toString(), {
       headers: {
-        'x-public-api-key': API_KEY,
+        'x-public-api-key': apiKey,
       },
       next: { revalidate: 60 },
     });
@@ -244,14 +254,15 @@ export async function getGalleryImages(locale: string, defaultLocale: string): P
 }
 
 export async function sendMessage(data: { name: string; email: string; phone?: string; subject?: string; message: string }) {
-  if (!API_URL || !API_KEY) return { success: false, error: 'Missing API credentials' };
+  const apiKey = getApiKey();
+  if (!API_URL || !apiKey) return { success: false, error: 'Missing API credentials' };
   
   try {
     const res = await fetch(`${API_URL}/api/public/v1/messages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-public-api-key': API_KEY,
+        'x-public-api-key': apiKey,
       },
       body: JSON.stringify(data),
     });

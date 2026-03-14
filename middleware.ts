@@ -10,7 +10,9 @@ export async function middleware(request: NextRequest) {
   
   try {
     const API_URL = process.env.NEXT_PUBLIC_SAAS_API_URL;
-    const API_KEY = process.env.NEXT_PUBLIC_STORE_API_KEY;
+    const PUBLIC_API_KEY = process.env.NEXT_PUBLIC_STORE_API_KEY;
+    const SECRET_API_KEY = process.env.STORE_SECRET_KEY;
+    const API_KEY = SECRET_API_KEY || PUBLIC_API_KEY;
     
     if (API_URL && API_KEY) {
       const res = await fetch(`${API_URL}/api/public/v1/settings`, {
