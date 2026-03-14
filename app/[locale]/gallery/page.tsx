@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const title = locale === 'uk' ? 'Галерея Робіт' : locale === 'cs' ? 'Galerie Prací' : 'Our Gallery';
 
   return {
-    title: `${title} | ${settings?.companyName || 'AURA'}`,
+    title: settings?.companyName ? `${title} | ${settings.companyName}` : title,
     description: locale === 'uk' ? 'Перегляньте наші найкращі роботи. Натхнення та результати роботи наших майстрів.' : 'View our best works. Inspiration and results of our masters.',
     alternates: {
       canonical: `${baseUrl}/${locale}/gallery`,

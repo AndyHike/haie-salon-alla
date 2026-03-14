@@ -14,15 +14,6 @@ interface GalleryProps {
   showAllLink?: string;
 }
 
-const fallbackImages = [
-  { src: "https://picsum.photos/seed/hair1/600/800", alt: "Hair styling 1", aspect: "aspect-[3/4]" },
-  { src: "https://picsum.photos/seed/hair2/600/600", alt: "Hair styling 2", aspect: "aspect-square" },
-  { src: "https://picsum.photos/seed/hair3/600/900", alt: "Hair styling 3", aspect: "aspect-[2/3]" },
-  { src: "https://picsum.photos/seed/hair4/600/700", alt: "Hair styling 4", aspect: "aspect-[6/7]" },
-  { src: "https://picsum.photos/seed/hair5/600/800", alt: "Hair styling 5", aspect: "aspect-[3/4]" },
-  { src: "https://picsum.photos/seed/hair6/600/600", alt: "Hair styling 6", aspect: "aspect-square" },
-];
-
 export default function Gallery({ images, locale, settings, limit, showAllLink }: GalleryProps) {
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
@@ -36,6 +27,10 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
 
   const validImages = images?.filter(img => img && img.filePath && img.filePath.trim() !== '') || [];
   
+  if (validImages.length === 0) {
+    return null;
+  }
+
   // Extract unique services
   const services = Array.from(new Set(validImages.filter(img => img.serviceName).map(img => img.serviceName as string)));
 
@@ -43,9 +38,7 @@ export default function Gallery({ images, locale, settings, limit, showAllLink }
     ? validImages.filter(img => img.serviceName === selectedService)
     : validImages;
 
-  let displayImages = filteredImages.length > 0 || validImages.length > 0
-    ? filteredImages.map((img, i) => ({ id: img.id, src: img.filePath, alt: img.altText || `Gallery image ${i}`, aspect: i % 2 === 0 ? "aspect-[3/4]" : "aspect-square" }))
-    : fallbackImages.map((img, i) => ({ id: `fallback-${i}`, ...img }));
+  let displayImages = filteredImages.map((img, i) => ({ id: img.id, src: img.filePath, alt: img.altText || `Gallery image ${i}`, aspect: i % 2 === 0 ? "aspect-[3/4]" : "aspect-square" }));
 
   if (limit) {
     displayImages = displayImages.slice(0, limit);

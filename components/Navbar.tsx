@@ -40,7 +40,7 @@ export default function Navbar({ locale, settings }: { locale: string, settings:
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Link href={`/${locale}`} className="text-2xl font-serif tracking-widest text-ink">
-          {settings?.companyName || 'AURA'}
+          {settings?.companyName}
         </Link>
 
         <div className="hidden md:flex gap-8 text-sm font-medium tracking-widest uppercase items-center">

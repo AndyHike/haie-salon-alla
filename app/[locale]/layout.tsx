@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   return {
     title: {
-      template: `%s | ${settings?.companyName || 'AURA'}`,
-      default: `${settings?.companyName || 'AURA'} | Салон Краси Волосся`,
+      template: settings?.companyName ? `%s | ${settings.companyName}` : '%s',
+      default: settings?.companyName ? `${settings.companyName} | Салон Краси Волосся` : 'Салон Краси Волосся',
     },
     description: 'Елітний салон краси волосся. Професійне фарбування, стрижки та догляд.',
     metadataBase: new URL(baseUrl),

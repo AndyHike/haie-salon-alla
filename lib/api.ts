@@ -48,6 +48,16 @@ export interface Item {
   linkedItems?: LinkedItem[];
 }
 
+export interface WorkingHours {
+  byAppointment: boolean;
+  days: {
+    day: string;
+    open: string;
+    close: string;
+    isClosed: boolean;
+  }[];
+}
+
 export interface StoreSettings {
   id: string;
   companyName: string;
@@ -56,7 +66,7 @@ export interface StoreSettings {
   contactName: string | null;
   address: string | null;
   addressUrl: string | null;
-  workingHours: string;
+  workingHours: WorkingHours | null;
   defaultLocale: string;
   instagramUrl: string | null;
   instagramActive: boolean;
@@ -144,44 +154,77 @@ export interface ServiceGroup {
   items: Item[];
 }
 
+export function getTranslation(obj: any, locale: string, defaultLocale: string): string {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  
+  if (obj[locale] && obj[locale].trim() !== '') return obj[locale];
+  if (obj[defaultLocale] && obj[defaultLocale].trim() !== '') return obj[defaultLocale];
+  if (obj['en'] && obj['en'].trim() !== '') return obj['en'];
+  
+  for (const key in obj) {
+    if (obj[key] && typeof obj[key] === 'string' && obj[key].trim() !== '') {
+      return obj[key];
+    }
+  }
+  return '';
+}
+
 export async function getServiceGroups(locale: string, defaultLocale: string): Promise<ServiceGroup[]> {
   let categories = await getCategories(locale) || [];
   if (categories.length === 0 && locale !== defaultLocale) {
     categories = await getCategories(defaultLocale) || [];
   }
 
-  const servicesCategory = categories.find(c => c.slug === 'services');
-  const subCategories = servicesCategory 
-    ? categories.filter(c => c.parentId === servicesCategory.id)
-    : [];
-
   const serviceGroups: ServiceGroup[] = [];
 
-  // Fetch general services
-  let generalItems = await getItems('services', locale) || [];
-  if (generalItems.length === 0 && locale !== defaultLocale) {
-    generalItems = await getItems('services', defaultLocale) || [];
-  }
-  if (generalItems.length > 0) {
-    serviceGroups.push({
-      id: 'general',
-      title: servicesCategory?.title || { uk: 'Загальні послуги', en: 'General Services', cs: 'Obecné služby' },
-      items: generalItems
-    });
-  }
-
-  // Fetch subcategory services
-  for (const sub of subCategories) {
-    let subItems = await getItems(sub.slug, locale) || [];
-    if (subItems.length === 0 && locale !== defaultLocale) {
-      subItems = await getItems(sub.slug, defaultLocale) || [];
+  const servicesCategory = categories.find(c => c.slug === 'services');
+  
+  if (servicesCategory) {
+    const subCategories = categories.filter(c => c.parentId === servicesCategory.id);
+    
+    // Fetch general services
+    let generalItems = await getItems('services', locale) || [];
+    if (generalItems.length === 0 && locale !== defaultLocale) {
+      generalItems = await getItems('services', defaultLocale) || [];
     }
-    if (subItems.length > 0) {
+    if (generalItems.length > 0) {
       serviceGroups.push({
-        id: sub.id,
-        title: sub.title,
-        items: subItems
+        id: 'general',
+        title: servicesCategory.title,
+        items: generalItems
       });
+    }
+
+    // Fetch subcategory services
+    for (const sub of subCategories) {
+      let subItems = await getItems(sub.slug, locale) || [];
+      if (subItems.length === 0 && locale !== defaultLocale) {
+        subItems = await getItems(sub.slug, defaultLocale) || [];
+      }
+      if (subItems.length > 0) {
+        serviceGroups.push({
+          id: sub.id,
+          title: sub.title,
+          items: subItems
+        });
+      }
+    }
+  } else {
+    // If no 'services' category, just fetch items for all top-level categories
+    const topCategories = categories.filter(c => !c.parentId && c.slug !== 'gallery');
+    for (const cat of topCategories) {
+      let catItems = await getItems(cat.slug, locale) || [];
+      if (catItems.length === 0 && locale !== defaultLocale) {
+        catItems = await getItems(cat.slug, defaultLocale) || [];
+      }
+      if (catItems.length > 0) {
+        serviceGroups.push({
+          id: cat.id,
+          title: cat.title,
+          items: catItems
+        });
+      }
     }
   }
 
@@ -206,19 +249,6 @@ export async function getGalleryImages(locale: string, defaultLocale: string): P
     galleryItems = await getItems('gallery', defaultLocale) || [];
   }
 
-  const extractTitle = (titleObj: any) => {
-    if (!titleObj) return undefined;
-    if (titleObj[locale] && titleObj[locale].trim() !== '') return titleObj[locale];
-    if (titleObj[defaultLocale] && titleObj[defaultLocale].trim() !== '') return titleObj[defaultLocale];
-    if (titleObj['en'] && titleObj['en'].trim() !== '') return titleObj['en'];
-    for (const key in titleObj) {
-      if (titleObj[key] && typeof titleObj[key] === 'string' && titleObj[key].trim() !== '') {
-        return titleObj[key];
-      }
-    }
-    return undefined;
-  };
-
   // 2. Process gallery items
   // The user creates a photo (gallery item) and links it to a service
   for (const item of galleryItems) {
@@ -230,7 +260,7 @@ export async function getGalleryImages(locale: string, defaultLocale: string): P
       const link = item.linkedItems.find(l => l.type === 'portfolio_photo') || item.linkedItems[0];
       if (link && link.targetItem) {
         serviceId = link.targetItem.id;
-        serviceName = extractTitle(link.targetItem.title);
+        serviceName = getTranslation(link.targetItem.title, locale, defaultLocale) || undefined;
       }
     }
 

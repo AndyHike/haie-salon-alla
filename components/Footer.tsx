@@ -2,28 +2,33 @@
 import { motion } from 'motion/react';
 import { MapPin, Phone, Clock, Instagram, Facebook } from 'lucide-react';
 
-import { StoreSettings } from '@/lib/api';
+import { StoreSettings, WorkingHours } from '@/lib/api';
 
 type DaySchedule = { day: string; open: string; close: string; isClosed: boolean };
 
-function formatWorkingHours(hoursJson: string | undefined | null, locale: string, defaultFallback: string) {
-  if (!hoursJson) return <p>{defaultFallback}</p>;
-  try {
-    const hours: DaySchedule[] = JSON.parse(hoursJson);
-    if (!Array.isArray(hours) || hours.length === 0) return <p>{defaultFallback}</p>;
+function formatWorkingHours(hours: WorkingHours | undefined | null, locale: string, defaultFallback: string) {
+  if (!hours) return <p>{defaultFallback}</p>;
+  
+  const daysMap: Record<string, Record<string, string>> = {
+    uk: { monday: 'Пн', tuesday: 'Вв', wednesday: 'Ср', thursday: 'Чт', friday: 'Пт', saturday: 'Сб', sunday: 'Нд', closed: 'Вихідний', byAppointment: 'За попереднім записом' },
+    cs: { monday: 'Po', tuesday: 'Út', wednesday: 'St', thursday: 'Čt', friday: 'Pá', saturday: 'So', sunday: 'Ne', closed: 'Zavřeno', byAppointment: 'Dle předchozí domluvy' },
+    en: { monday: 'Mon', tuesday: 'Tue', wednesday: 'Wed', thursday: 'Thu', friday: 'Fri', saturday: 'Sat', sunday: 'Sun', closed: 'Closed', byAppointment: 'By appointment only' }
+  };
+  const tDays = daysMap[locale] || daysMap.uk;
 
-    const daysMap: Record<string, Record<string, string>> = {
-      uk: { monday: 'Пн', tuesday: 'Вв', wednesday: 'Ср', thursday: 'Чт', friday: 'Пт', saturday: 'Сб', sunday: 'Нд', closed: 'Вихідний' },
-      cs: { monday: 'Po', tuesday: 'Út', wednesday: 'St', thursday: 'Čt', friday: 'Pá', saturday: 'So', sunday: 'Ne', closed: 'Zavřeno' },
-      en: { monday: 'Mon', tuesday: 'Tue', wednesday: 'Wed', thursday: 'Thu', friday: 'Fri', saturday: 'Sat', sunday: 'Sun', closed: 'Closed' }
-    };
-    const tDays = daysMap[locale] || daysMap.uk;
+  if (hours.byAppointment) {
+    return <p className="italic">{tDays.byAppointment}</p>;
+  }
+
+  try {
+    const days = hours.days;
+    if (!Array.isArray(days) || days.length === 0) return <p>{defaultFallback}</p>;
 
     const groups: { start: string, end: string, open: string, close: string, isClosed: boolean }[] = [];
-    let currentGroup = { start: hours[0].day, end: hours[0].day, open: hours[0].open, close: hours[0].close, isClosed: hours[0].isClosed };
+    let currentGroup = { start: days[0].day, end: days[0].day, open: days[0].open, close: days[0].close, isClosed: days[0].isClosed };
 
-    for (let i = 1; i < hours.length; i++) {
-      const day = hours[i];
+    for (let i = 1; i < days.length; i++) {
+      const day = days[i];
       if (day.open === currentGroup.open && day.close === currentGroup.close && day.isClosed === currentGroup.isClosed) {
         currentGroup.end = day.day;
       } else {
@@ -70,7 +75,7 @@ export default function Footer({ locale, settings }: { locale: string, settings:
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-serif text-gold mb-6 tracking-widest">{settings?.companyName || 'AURA'}</h3>
+            <h3 className="text-3xl font-serif text-gold mb-6 tracking-widest">{settings?.companyName}</h3>
             <p className="text-ink/60 font-light leading-relaxed mb-6">
               {t.desc}
             </p>
@@ -96,30 +101,34 @@ export default function Footer({ locale, settings }: { locale: string, settings:
           >
             <h4 className="text-lg font-serif text-ink mb-6 uppercase tracking-wider">{t.contact}</h4>
             <ul className="space-y-4 text-ink/60 font-light">
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
-                  <MapPin className="text-gold" size={18} />
-                </div>
-                <span className="mt-2">
-                  {settings?.addressUrl ? (
-                    <a href={settings.addressUrl} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
-                      {settings?.address || t.address}
+              {settings?.address && (
+                <li className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
+                    <MapPin className="text-gold" size={18} />
+                  </div>
+                  <span className="mt-2">
+                    {settings.addressUrl ? (
+                      <a href={settings.addressUrl} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                        {settings.address}
+                      </a>
+                    ) : (
+                      settings.address
+                    )}
+                  </span>
+                </li>
+              )}
+              {settings?.phone && (
+                <li className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
+                    <Phone className="text-gold" size={18} />
+                  </div>
+                  <span>
+                    <a href={`tel:${settings.phone.replace(/\s+/g, '')}`} className="hover:text-gold transition-colors">
+                      {settings.phone}
                     </a>
-                  ) : (
-                    settings?.address || t.address
-                  )}
-                </span>
-              </li>
-              <li className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
-                  <Phone className="text-gold" size={18} />
-                </div>
-                <span>
-                  <a href={`tel:${(settings?.phone || '+38 (044) 123-45-67').replace(/\s+/g, '')}`} className="hover:text-gold transition-colors">
-                    {settings?.phone || '+38 (044) 123-45-67'}
-                  </a>
-                </span>
-              </li>
+                  </span>
+                </li>
+              )}
             </ul>
           </motion.div>
 
@@ -131,20 +140,22 @@ export default function Footer({ locale, settings }: { locale: string, settings:
           >
             <h4 className="text-lg font-serif text-ink mb-6 uppercase tracking-wider">{t.schedule}</h4>
             <ul className="space-y-4 text-ink/60 font-light">
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
-                  <Clock className="text-gold" size={18} />
-                </div>
-                <div className="mt-2 w-full pr-4">
-                  {formatWorkingHours(settings?.workingHours, locale, t.days1)}
-                </div>
-              </li>
+              {settings?.workingHours && (
+                <li className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-ink/5 flex items-center justify-center shrink-0">
+                    <Clock className="text-gold" size={18} />
+                  </div>
+                  <div className="mt-2 w-full pr-4">
+                    {formatWorkingHours(settings.workingHours, locale, '')}
+                  </div>
+                </li>
+              )}
             </ul>
           </motion.div>
         </div>
 
         <div className="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-ink/40 font-light">
-          <p>&copy; {new Date().getFullYear()} {settings?.companyName || 'Aura Salon'}. {t.rights}</p>
+          <p>&copy; {new Date().getFullYear()} {settings?.companyName}. {t.rights}</p>
           <p>{t.dev}</p>
         </div>
       </div>
